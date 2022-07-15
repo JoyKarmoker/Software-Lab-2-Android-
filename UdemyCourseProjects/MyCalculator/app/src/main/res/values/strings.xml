@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Calculator</string>
+    <string name="app_name">Joy Calculator</string>
     <string name="calc_text">123456789</string>
     <string name="zero">0</string>
     <string name="one">1</string>

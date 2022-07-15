@@ -9,6 +9,7 @@ import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : AppCompatActivity() {
     private var tvInput: TextView? = null
+    private var tvPreviousInput: TextView? = null
     private var isDotPresent: Boolean = false
     private var isLastInputDigit: Boolean = false
     private var isClear: Boolean = true
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         tvInput = findViewById(R.id.tvInput)
+        tvPreviousInput = findViewById(R.id.tvPreviousInput)
     }
 
     fun onDigit(view: View) {
@@ -119,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                 // Calculate the result and display
                 val result = expression.evaluate()
                 val round = String.format("%.4f", result)
+                tvPreviousInput?.text = tvInput?.text
                 tvInput?.text = round
                 isDotPresent = true // Result contains a dot
                 isClear = false
