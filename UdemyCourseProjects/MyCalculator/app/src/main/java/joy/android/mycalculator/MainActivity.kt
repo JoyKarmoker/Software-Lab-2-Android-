@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private var isDotPresent: Boolean = false
     private var isLastInputDigit: Boolean = false
     private var isClear: Boolean = true
+    private var isResultGenerated: Boolean = false
     private var isLastInputOperator: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,9 +28,14 @@ class MainActivity : AppCompatActivity() {
         isLastInputDigit = true
         isClear = false
         isLastInputOperator = false
+        isResultGenerated = false
     }
 
     fun onClear(view: View) {
+        if( isResultGenerated)
+        {
+            tvPreviousInput?.text = tvInput?.text
+        }
         tvInput?.text = ""
         isLastInputDigit = false
         isDotPresent = false
@@ -44,32 +50,36 @@ class MainActivity : AppCompatActivity() {
             isLastInputDigit = false
             isClear = false
             isLastInputOperator = false
+            isResultGenerated = false
         }
     }
 
     fun onOperator(view: View) {
         var operator = (view as Button).text
         tvInput?.text?.let {
-            if(isClear && (operator.toString() == "-") || (!isOperatorAdded(it.toString())) && isLastInputDigit) {
+            if (isClear && (operator.toString() == "-") || (!isOperatorAdded(it.toString())) && isLastInputDigit) {
                 tvInput?.append(operator)
                 isLastInputOperator = true
                 isDotPresent = false
                 isLastInputDigit = false
                 isClear = false
-            }else if (isLastInputOperator && (operator.toString() == "-")) {
+                isResultGenerated = false
+            } else if (isLastInputOperator && (operator.toString() == "-")) {
                 tvInput?.append("-")
                 isLastInputOperator = false
                 isDotPresent = false
                 isLastInputDigit = false
                 isClear = false
-            }
-            else if(isLastInputDigit){
+                isResultGenerated = false
+            } else if (isLastInputDigit) {
                 onEqual(view)
+                tvPreviousInput?.text = tvInput?.text
                 tvInput?.append(operator)
                 isLastInputOperator = true
                 isDotPresent = false
                 isLastInputDigit = false
                 isClear = false
+                isResultGenerated = false
             }
 
 
@@ -94,8 +104,8 @@ class MainActivity : AppCompatActivity() {
 
             return textViewValueAfterRemovingMinus.contains("+") || textViewValueAfterRemovingMinus.contains("-") ||
                     textViewValueAfterRemovingMinus.contains(
-                "*"
-            ) || textViewValueAfterRemovingMinus.contains("/")
+                        "*"
+                    ) || textViewValueAfterRemovingMinus.contains("/")
         }
 
         return (textViewValue.contains("+") || textViewValue.contains("-") || textViewValue.contains("*") || textViewValue.contains("/"))
@@ -127,12 +137,14 @@ class MainActivity : AppCompatActivity() {
                 isClear = false
                 isLastInputOperator = false
                 isLastInputDigit = true
+                isResultGenerated = true
             } catch (ex: ArithmeticException) {
                 // Display an error message
                 tvInput?.text = "Error"
                 isLastInputDigit = false
                 isClear = false
                 isLastInputOperator = false
+                isResultGenerated = false
             }
         }
     }
