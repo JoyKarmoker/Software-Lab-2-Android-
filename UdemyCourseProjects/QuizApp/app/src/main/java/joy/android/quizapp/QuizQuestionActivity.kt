@@ -5,10 +5,7 @@ import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
@@ -55,7 +52,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setQuestion() {
-        //defaultOptionsView()
+        defaultOptionsView()
         val question = mQuestionList!![mCurrentPosition - 1]
         tvQuestion?.text = question.question
         ivImage?.setImageResource(question.image)
@@ -138,6 +135,9 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                             mCurrentPosition <= mQuestionList!!.size -> {
                                 setQuestion()
                             }
+                            else->{
+                                Toast.makeText(this, "You have reached the end", Toast.LENGTH_LONG).show()
+                            }
 
                         }
                     }else{
@@ -145,8 +145,16 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                         if(question!!.correctAnswer != mSelectedOptionPosition){
                             answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
                         }
-                        answerView(mSelectedOptionPosition, R.drawable.correct_option_border_bg)
+                        answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
                     }
+
+                    if(mCurrentPosition == mQuestionList!!.size){
+                        btnSubmit?.text = "FINISH"
+                    }else{
+                        btnSubmit?.text = "Go To NEXT QUESTION"
+                    }
+
+                    mSelectedOptionPosition = 0
                 }
             }
         }
