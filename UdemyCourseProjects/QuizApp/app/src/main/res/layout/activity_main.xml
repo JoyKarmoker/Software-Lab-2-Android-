@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Quiz App!"
+        android:text="Joy Quiz!"
         android:layout_marginBottom="30dp"
         android:textColor="@color/white"
         android:textSize="25sp"
