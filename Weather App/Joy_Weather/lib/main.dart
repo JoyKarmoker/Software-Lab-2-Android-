@@ -5,6 +5,9 @@ import 'package:joy_weather/Activity/loading.dart';
 
 void main() {
   runApp(MaterialApp(
-    home:Home(),
+    routes: {
+      "/": (context) => const Loading(),
+      "/home": (context) => const Home()
+    },
   ));
 }
