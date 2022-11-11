@@ -48,12 +48,12 @@ class worker{
       main = getMain;
       icon = getIcon;
     }catch(e) {
-      temperature = "Can not get Data";
-      humidity = "Can not get Data";
-      airSpeed ="Can not get Data";
-      description = "Can not get Data";
-      main = "Can not get Data";
-      icon = "03n";
+      temperature = "NA";
+      humidity = "NA";
+      airSpeed ="NA";
+      description = "Can not Find Data";
+      main = "NA";
+      icon = "09d";
     }
 
   }

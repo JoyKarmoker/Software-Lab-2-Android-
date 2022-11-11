@@ -10,6 +10,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  TextEditingController searchController = new TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -64,177 +66,191 @@ class _HomeState extends State<Home> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter),
           )),
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [Colors.blue.shade800, Colors.cyan.shade300])),
-          child: Column(
-            children: [
-              Container(
-                //Search Container
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                margin: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24)),
-                child: Row(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Colors.blue.shade800, Colors.cyan.shade300])),
+            child: Column(
+              children: [
+                Container(
+                  //Search Container
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  margin: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24)),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            if ((searchController.text).replaceAll(" ", "") == "") {
+                              print("Blank Search");
+                            }
+                            else {
+                              Navigator.pushReplacementNamed(context, '/loading', arguments: {
+                                    "searchText": searchController.text
+                                  });
+                            }
+                          },
+                          child: Container(
+                            child: Icon(Icons.search, color: Colors.blueAccent),
+                            margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
+                          )),
+                      Expanded(
+                        child: TextField(
+                            controller: searchController,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Search by city name, i.e. $city")),
+                      )
+                    ],
+                  ),
+                ), //Search Container
+
+                Row(
                   children: [
-                    GestureDetector(
-                        onTap: () {
-                          print("Search me");
-                        },
-                        child: Container(
-                          child: Icon(Icons.search, color: Colors.blueAccent),
-                          margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
-                        )),
                     Expanded(
-                      child: TextField(
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Search by city name, i.e. $city")),
-                    )
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white.withOpacity(0.5)),
+                        margin: EdgeInsets.symmetric(horizontal: 25),
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            Image.network(
+                                "http://openweathermap.org/img/wn/$icon@2x.png"),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  "$description",
+                                  style: TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "In $currentCity",
+                                  style: TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ), //Search Container
 
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Colors.white.withOpacity(0.5)),
-                      margin: EdgeInsets.symmetric(horizontal: 25),
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Image.network("http://openweathermap.org/img/wn/$icon@2x.png"),
-                          SizedBox(width: 20,),
-                          Column(
-                            children: [
-                              Text(
-                                "$description",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "In $currentCity",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          )
-                        ],
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white.withOpacity(0.5)),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        padding: EdgeInsets.all(26),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(WeatherIcons.thermometer),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "$temperature",
+                                  style: TextStyle(fontSize: 80),
+                                ),
+                                Text(
+                                  "°C",
+                                  style: TextStyle(fontSize: 30),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Colors.white.withOpacity(0.5)),
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                      padding: EdgeInsets.all(26),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(WeatherIcons.thermometer),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "$temperature",
-                                style: TextStyle(fontSize: 80),
-                              ),
-                              Text(
-                                "°C",
-                                style: TextStyle(fontSize: 30),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Colors.white.withOpacity(0.5)),
-                      margin: EdgeInsets.fromLTRB(25, 0, 10, 0),
-                      padding: EdgeInsets.all(26),
-                      height: 200,
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [Icon(WeatherIcons.day_windy)],
-                          ),
-                          SizedBox(height: 30),
-                          Text(
-                            "$airSpeed",
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.bold),
-                          ),
-                          Text("Km/hr")
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Colors.white.withOpacity(0.5)),
-                      margin: EdgeInsets.fromLTRB(10, 0, 25, 0),
-                      padding: EdgeInsets.all(26),
-                      height: 200,
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [Icon(WeatherIcons.humidity)],
-                          ),
-                          SizedBox(height: 30),
-                          Text(
-                            "$humidity",
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.bold),
-                          ),
-                          Text("Percent")
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.all(40),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Text("Made with ❤ by Joy"),
-                    Text("Data provided by openweathermap.org")
                   ],
                 ),
-              )
-            ],
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white.withOpacity(0.5)),
+                        margin: EdgeInsets.fromLTRB(25, 0, 10, 0),
+                        padding: EdgeInsets.all(26),
+                        height: 200,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [Icon(WeatherIcons.day_windy)],
+                            ),
+                            SizedBox(height: 30),
+                            Text(
+                              "$airSpeed",
+                              style: TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold),
+                            ),
+                            Text("Km/hr")
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white.withOpacity(0.5)),
+                        margin: EdgeInsets.fromLTRB(10, 0, 25, 0),
+                        padding: EdgeInsets.all(26),
+                        height: 200,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [Icon(WeatherIcons.humidity)],
+                            ),
+                            SizedBox(height: 30),
+                            Text(
+                              "$humidity",
+                              style: TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold),
+                            ),
+                            Text("Percent")
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 60),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      Text("Made with ❤ by Joy"),
+                      Text("Data provided by openweathermap.org")
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -18,7 +18,7 @@ class _LoadingState extends State<Loading> {
   late String main;
   late String icon;
 
-  void startApp() async
+  void startApp(String city) async
   {
     worker instance =  worker(location: city);
     await instance.getData();
@@ -44,37 +44,45 @@ class _LoadingState extends State<Loading> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    startApp();
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
+    if(ModalRoute.of(context)?.settings.arguments != null)
+    {
+      Map info = ModalRoute.of(context)?.settings.arguments as Map;
+      city = info['searchText'];
+    }
+
+    startApp(city);
+
     return Scaffold(
-      body: Center(child: Column( mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget> [
-          Image.asset("assets/images/wlogo.png"),
-          const Text('Joy Weather',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
+      body: SingleChildScrollView(
+        child: Center(child: Column( mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget> [
+            SizedBox(height: 150),
+            Image.asset("assets/images/wlogo.png"),
+            const Text('Joy Weather',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white
+                )),
+            const SizedBox(height: 10),
+            const Text('Made with ❤ by JOY',
+            style: TextStyle(
+                fontSize: 16,
                 color: Colors.white
-              )),
-          const SizedBox(height: 10),
-          const Text('Made with ❤ by JOY',
-          style: TextStyle(
-              fontSize: 16,
-              color: Colors.white
-          )),
-          const SizedBox(height: 50),
-          const SpinKitWave(
-            color: Colors.white,
-            size: 50.0,
-          )
-        ],
-      ),
+            )),
+            const SizedBox(height: 50),
+            const SpinKitWave(
+              color: Colors.white,
+              size: 50.0,
+            )
+          ],
+        ),
+        ),
       ),
       backgroundColor: Colors.blue[300],
     );
