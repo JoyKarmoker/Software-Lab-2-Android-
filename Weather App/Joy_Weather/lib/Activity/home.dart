@@ -29,23 +29,44 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    //Map info = ModalRoute.of(context).settings.arguments;
+    var cityName = ["Dhaka", "Khulna", "Sylhet", "London"];
     Map? info = ModalRoute.of(context)?.settings.arguments as Map;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Activity"),
-      ),
-      body: Center(child: Column( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: SafeArea(
+        child: Container(
+          child: Column(
             children: [
-              FloatingActionButton(
-                onPressed: () => setState(() { }),
-                child: const Icon(Icons.add),
-              ),
-                  Text(info["temperatureValue"])
-                ],
-            ),
-      )
+              Container( //Search Container
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                margin: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(24)
+                ),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                        onTap:() {},
+                        child: Container(child: Icon(Icons.search, color: Colors.blueAccent),
+                          margin: EdgeInsets.fromLTRB(3, 0, 7, 0),)
+                    ),
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Search by city name"
+                        )
+                        
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
