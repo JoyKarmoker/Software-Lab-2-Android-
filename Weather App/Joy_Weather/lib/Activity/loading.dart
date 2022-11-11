@@ -10,21 +10,24 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
+  String city = "Rajshahi";
   late String temperature;
   late String humidity;
   late String airSpeed;
   late String description;
   late String main;
+  late String icon;
 
   void startApp() async
   {
-    worker instance =  worker(location: "Rajshahi");
+    worker instance =  worker(location: city);
     await instance.getData();
     temperature = instance.temperature;
     humidity = instance.humidity;
     airSpeed = instance.airSpeed;
     description = instance.description;
     main = instance.main;
+    icon = instance.icon;
     Future.delayed(Duration(seconds: 2), (){
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/home', arguments: {
@@ -32,7 +35,9 @@ class _LoadingState extends State<Loading> {
         "humidityValue" : humidity,
         "airSpeedValue" : airSpeed,
         "descriptionValue" : description,
-        "mainValue" : main
+        "mainValue" : main,
+        "iconValue" : icon,
+        "cityValue" : city
       });
     });
   }
