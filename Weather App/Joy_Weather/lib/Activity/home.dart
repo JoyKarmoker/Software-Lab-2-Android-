@@ -29,6 +29,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    //Map info = ModalRoute.of(context).settings.arguments;
+    Map? info = ModalRoute.of(context)?.settings.arguments as Map;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Home Activity"),
@@ -39,7 +42,7 @@ class _HomeState extends State<Home> {
                 onPressed: () => setState(() { }),
                 child: const Icon(Icons.add),
               ),
-                  Text("Sample Text")
+                  Text(info["temperatureValue"])
                 ],
             ),
       )
