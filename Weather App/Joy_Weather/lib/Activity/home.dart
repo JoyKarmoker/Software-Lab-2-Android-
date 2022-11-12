@@ -87,13 +87,14 @@ class _HomeState extends State<Home> {
                     children: [
                       GestureDetector(
                           onTap: () {
-                            if ((searchController.text).replaceAll(" ", "") == "") {
+                            if ((searchController.text).replaceAll(" ", "") ==
+                                "") {
                               print("Blank Search");
-                            }
-                            else {
-                              Navigator.pushReplacementNamed(context, '/loading', arguments: {
-                                    "searchText": searchController.text
-                                  });
+                            } else {
+                              Navigator.pushReplacementNamed(
+                                  context, '/loading', arguments: {
+                                "searchText": searchController.text
+                              });
                             }
                           },
                           child: Container(
@@ -122,8 +123,19 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(10),
                         child: Row(
                           children: [
+                            //Image.network("http://openweathermap.org/img/wn/$icon@2x.png"),
                             Image.network(
-                                "http://openweathermap.org/img/wn/$icon@2x.png"),
+                              'http://openweathermap.org/img/wn/$icon@2x.png',
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    'Whoops!',
+                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                );
+                              },
+                            ),
                             SizedBox(
                               width: 20,
                             ),
@@ -132,12 +144,14 @@ class _HomeState extends State<Home> {
                                 Text(
                                   "$description",
                                   style: TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.bold),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   "In $currentCity",
                                   style: TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.bold),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 )
                               ],
                             )
