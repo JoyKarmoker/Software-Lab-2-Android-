@@ -8,6 +8,7 @@ A Fluter Project to show weather. First it shows the weather of Rajshahi by efay
 
 ![App Screenshot](Loading.jpg)
 ![App Screenshot](Home.jpg)
-![App Screenshot](Loading.jpg)
+![App Screenshot](Search.jpg)
+![App Screenshot](Melbourne.jpg)
 
 
