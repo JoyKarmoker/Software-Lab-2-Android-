@@ -3,6 +3,14 @@ import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_icons/weather_icons.dart';
 
+const List<String> list = <String>[
+  'Rajshahi',
+  'Dhaka',
+  'Chittagong',
+  'Khulna',
+  'Sylhet'
+];
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
   @override
@@ -11,42 +19,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController searchController = new TextEditingController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
-    print("Home Set state called");
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    print("Widget Destroyed");
-  }
+  String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context) {
-    var cityName = [
-      "Dhaka",
-      "Tokyo",
-      "Khulna",
-      "Sylhet",
-      "London",
-      "Chittagong",
-      "Paris",
-      "Delhi"
-    ];
-    final _random = new Random();
-    var city = cityName[_random.nextInt(cityName.length)];
-
     Map? info = ModalRoute.of(context)?.settings.arguments as Map;
     String temperature = info['temperatureValue'];
     String icon = info['iconValue'];
@@ -54,7 +30,11 @@ class _HomeState extends State<Home> {
     String humidity = info['humidityValue'];
     String airSpeed = info['airSpeedValue'];
     String description = info['descriptionValue'];
+    //String latitude = info['latitudeValue'];
+    //String longitude = info['longitudeValue'];
     String main = info['mainValue'];
+
+    //print("Latitude Value $latitude and longitude value $longitude");
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -79,39 +59,84 @@ class _HomeState extends State<Home> {
                 Container(
                   //Search Container
                   padding: EdgeInsets.symmetric(horizontal: 8),
-                  margin: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  margin: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24)),
+                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.white),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                          onTap: () {
-                            if ((searchController.text).replaceAll(" ", "") ==
-                                "") {
-                              print("Blank Search");
-                            } else {
-                              Navigator.pushReplacementNamed(
-                                  context, '/loading', arguments: {
-                                "searchText": searchController.text
-                              });
-                            }
-                          },
-                          child: Container(
-                            child: Icon(Icons.search, color: Colors.blueAccent),
-                            margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
-                          )),
-                      Expanded(
-                        child: TextField(
-                            controller: searchController,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Search by city name, i.e. $city")),
-                      )
+                      DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: const Icon(Icons.arrow_drop_down,
+                            color: Colors.black),
+                        elevation: 16,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                        onChanged: (String? value) {
+                          // This is called when the user selects an item.
+                          setState(() {
+                            dropdownValue = value!;
+                          });
+                        },
+                        items:
+                        list.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      Spacer(),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, '/loading',
+                              arguments: {"searchText": dropdownValue});
+                        },
+
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.black,
+                            textStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Text('Location'), // <-- Text
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Icon( // <-- Icon
+                              Icons.ads_click ,
+                              size: 24.0,
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ), //Search Container
-
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 25),
+                  padding: EdgeInsets.all(10),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      style: ButtonStyle(
+                          foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.black54)),
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, '/loading',
+                            arguments: {"searchText": dropdownValue});
+                      },
+                      child: const Text('View Weather'),
+                    ),
+                  ),
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -131,7 +156,9 @@ class _HomeState extends State<Home> {
                                   alignment: Alignment.center,
                                   child: const Text(
                                     'Whoops!',
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 );
                               },
@@ -161,7 +188,6 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-
                 Row(
                   children: [
                     Expanded(
@@ -171,7 +197,7 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(14),
                             color: Colors.white.withOpacity(0.5)),
                         margin:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                         padding: EdgeInsets.all(26),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,7 +222,6 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

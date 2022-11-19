@@ -16,6 +16,8 @@ class _LoadingState extends State<Loading> {
   late String airSpeed;
   late String description;
   late String main;
+  //late String latitude;
+  //late String longitude;
   late String icon;
 
   void startApp(String city) async
@@ -35,6 +37,8 @@ class _LoadingState extends State<Loading> {
         "humidityValue" : humidity,
         "airSpeedValue" : airSpeed,
         "descriptionValue" : description,
+        //"latitudeValue" : latitude,
+        //"longitudeValue" : longitude,
         "mainValue" : main,
         "iconValue" : icon,
         "cityValue" : city
