@@ -20,31 +20,28 @@ class _LoadingState extends State<Loading> {
   late String latitude;
   late String longitude;
   late String icon;
+  late String date1;
 
   void startApp(String city) async
   {
     worker instance =  worker(location: city);
     await instance.getData();
     temperature = instance.temperature;
-    temperatureF =instance.temperatureF;
     humidity = instance.humidity;
     airSpeed = instance.airSpeed;
     description = instance.description;
-    latitude = instance.latitude;
-    longitude = instance.longitude;
-    main = instance.main;
+    date1 = instance.date1;
+    //main = instance.main;
     icon = instance.icon;
     Future.delayed(Duration(seconds: 2), (){
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/home', arguments: {
         "temperatureValue" : temperature,
-        "temperatureFValue" : temperatureF,
         "humidityValue" : humidity,
         "airSpeedValue" : airSpeed,
         "descriptionValue" : description,
-        "latitudeValue" : latitude,
-        "longitudeValue" : longitude,
-        "mainValue" : main,
+        "date1Value" : date1,
+        //"mainValue" : main,
         "iconValue" : icon,
         "cityValue" : city
       });

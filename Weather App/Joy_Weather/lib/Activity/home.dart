@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
     String humidity = info['humidityValue'];
     String airSpeed = info['airSpeedValue'];
     String description = info['descriptionValue'];
-    String main = info['mainValue'];
+    String date = info['date1Value'];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -55,14 +55,16 @@ class _HomeState extends State<Home> {
             Container(
             //Search Container
             padding: EdgeInsets.symmetric(horizontal: 8),
-            margin: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              margin: const EdgeInsets.only(left: 24.0, right: 24.0, top: 20,
+                  bottom: 5),
+            //margin: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(24)),
             child: Row(
               children: [
                 GestureDetector(
-                    onTap: () {},
+                onTap: () {},
                     child: Container(
                       child: Icon(Icons.search, color: Colors.blueAccent),
                       margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
@@ -89,16 +91,15 @@ class _HomeState extends State<Home> {
                           backgroundColor:
                           MaterialStateProperty.all(Colors.black54)),
                       onPressed: () {
-                        {
                           if ((searchController.text).replaceAll(" ", "") == "") {
                             print("Blank Search");
                           }
                           else {
+                            print(searchController.text);
                             Navigator.pushReplacementNamed(context, '/loading', arguments: {
                               "searchText": searchController.text
                             });
                           }
-                        }
                       },
                       child: const Text('View Weather'),
                     ),
@@ -115,9 +116,9 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(10),
                         child: Row(
                           children: [
-                            //Image.network("http://openweathermap.org/img/wn/$icon@2x.png"),
+                            //'http://openweathermap.org/img/wn/$icon@2x.png'
                             Image.network(
-                              'http://openweathermap.org/img/wn/$icon@2x.png',
+                              'https:$icon',
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(
                                   alignment: Alignment.center,
@@ -244,7 +245,23 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 40),
+
+                Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.white.withOpacity(0.5)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Future Forecast"),
+                      Text("Date:$date Max Temp: Min Temp:"),
+                      Text("Date: Max Temp: Min Temp:"),
+                    ],
+                  ),
+                ),
+
                 Container(
                   padding: EdgeInsets.all(20),
                   child: Column(
