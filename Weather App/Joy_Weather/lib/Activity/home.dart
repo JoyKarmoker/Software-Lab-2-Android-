@@ -25,17 +25,12 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Map? info = ModalRoute.of(context)?.settings.arguments as Map;
     String temperature = info['temperatureValue'];
-    String temperatureF = info['temperatureFValue'];
     String icon = info['iconValue'];
     String currentCity = info['cityValue'];
     String humidity = info['humidityValue'];
     String airSpeed = info['airSpeedValue'];
     String description = info['descriptionValue'];
-    String latitude = info['latitudeValue'];
-    String longitude = info['longitudeValue'];
     String main = info['mainValue'];
-
-    //print("Latitude Value $latitude and longitude value $longitude");
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -57,160 +52,32 @@ class _HomeState extends State<Home> {
                     colors: [Colors.blue.shade800, Colors.cyan.shade300])),
             child: Column(
               children: [
+            Container(
+            //Search Container
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            margin: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24)),
+            child: Row(
+              children: [
+                GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      child: Icon(Icons.search, color: Colors.blueAccent),
+                      margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
+                    )),
+                Expanded(
+                  child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Search by city name")),
+                )
+              ],
+            ),
+          ),
                 Container(
-                  //Search Container
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  margin: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: Colors.white),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      DropdownButton<String>(
-                        value: dropdownValue,
-                        icon: const Icon(Icons.arrow_drop_down,
-                            color: Colors.black),
-                        elevation: 16,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            dropdownValue = value!;
-                          });
-                        },
-                        items:
-                            list.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                      Spacer(),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/loading',
-                              arguments: {"searchText": dropdownValue});
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.black,
-                            textStyle: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text('Location'), // <-- Text
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              // <-- Icon
-                              Icons.ads_click,
-                              size: 24.0,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ), //Search Container
-
-                Container(
-                    //Latitude, longitude And City and Name
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
-                    margin: EdgeInsets.symmetric(horizontal: 30),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              // Latitude
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  child: const Text(
-                                    'Latitude',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      height: 1,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    '$latitude',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      height: 1,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ],
-                            ), // Latitude Row
-
-                            Spacer(),
-                            Row(
-                              // Longitude
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  child: const Text(
-                                    'Longitude',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      height: 1,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    '$longitude',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      height: 1,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ],
-                            ), //Longitude
-                          ],
-                        ),
-
-                        const SizedBox( //For spacing between Latlong and
-                          // City name
-                          height: 12,
-                        ),
-                        Text('$currentCity, BD',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              height: 1,
-                            ))
-                      ],
-                    )), //Latitude longitude and City
-
-                Container(
-                  // View Weather Button
                   margin: EdgeInsets.symmetric(horizontal: 25),
                   padding: EdgeInsets.all(10),
                   child: SizedBox(
@@ -218,19 +85,26 @@ class _HomeState extends State<Home> {
                     child: TextButton(
                       style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.black54)),
+                          MaterialStateProperty.all(Colors.black54)),
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/loading',
-                            arguments: {"searchText": dropdownValue});
+                        {
+                          if ((searchController.text).replaceAll(" ", "") == "") {
+                            print("Blank Search");
+                          }
+                          else {
+                            Navigator.pushReplacementNamed(context, '/loading', arguments: {
+                              "searchText": searchController.text
+                            });
+                          }
+                        }
                       },
                       child: const Text('View Weather'),
                     ),
                   ),
-                ), // View Weather Button
+                ),
                 Row(
-                  // Description Widget
                   children: [
                     Expanded(
                       child: Container(
@@ -280,46 +154,32 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ],
-                ), //Description Widget
+                ),
                 Row(
                   children: [
                     Expanded(
                       child: Container(
-                        //height: 200,
+                        height: 200,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(14),
                             color: Colors.white.withOpacity(0.5)),
                         margin:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                         padding: EdgeInsets.all(26),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Icon(WeatherIcons.thermometer),
-                            const SizedBox( //For spacing between Latlong and
-                              // City name
-                              height: 12,
-                            ),
                             Row(
-                              //mainAxisAlignment: MainAxisAlignment
-                              // .spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   "$temperature",
-                                  style: TextStyle(fontSize: 30),
+                                  style: TextStyle(fontSize: 80),
                                 ),
                                 Text(
                                   "°C",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                Spacer(),
-                                Text(
-                                  "$temperatureF",
                                   style: TextStyle(fontSize: 30),
-                                ),
-                                Text(
-                                  "°F",
-                                  style: TextStyle(fontSize: 20),
                                 )
                               ],
                             )
@@ -369,17 +229,7 @@ class _HomeState extends State<Home> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(WeatherIcons.humidity),
-                                SizedBox(width: 10),
-                                Text(
-                                  "আদ্রতা",
-                                    textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight
-                                      .bold),
-                                ),
-                              ],
+                              children: [Icon(WeatherIcons.humidity)],
                             ),
                             SizedBox(height: 30),
                             Text(
