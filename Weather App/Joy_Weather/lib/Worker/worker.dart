@@ -15,8 +15,8 @@ class worker{
   late String airSpeed;
   late String description;
   late String main;
-  //late String latitude;
-  //late String longitude;
+  late String latitude;
+  late String longitude;
   late String icon;
 
   Future<void> getData() async{
@@ -45,16 +45,16 @@ class worker{
 
       //Getting latitude longitude
       Map coordData = data['coord'];
-      //String getLongitude = coordData['lon'].toString();
-      //String getLatitude = coordData['lat'].toString();
+      double getLongitude = coordData['lon'];
+      double getLatitude = coordData['lat'];
 
       //Assigning Values
       temperature = getTemperature.toStringAsFixed(1);
       humidity = getHumidity.toString();
       airSpeed = getAirSpeed.toStringAsFixed(1);
       description = getDescription;
-      //latitude = getLatitude;
-      //longitude = getLongitude;
+      latitude = getLatitude.toStringAsFixed(2);
+      longitude = getLongitude.toStringAsFixed(2);
       main = getMain;
       icon = getIcon;
     }catch(e) {
@@ -62,8 +62,8 @@ class worker{
       humidity = "NA";
       airSpeed ="NA";
       description = "Can not Find Data";
-      //latitude = "NA";
-      //longitude = "NA";
+      latitude = "NA";
+      longitude = "NA";
       main = "NA";
       icon = "09d";
     }

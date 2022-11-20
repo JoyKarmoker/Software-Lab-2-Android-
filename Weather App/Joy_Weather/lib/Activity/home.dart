@@ -30,8 +30,8 @@ class _HomeState extends State<Home> {
     String humidity = info['humidityValue'];
     String airSpeed = info['airSpeedValue'];
     String description = info['descriptionValue'];
-    //String latitude = info['latitudeValue'];
-    //String longitude = info['longitudeValue'];
+    String latitude = info['latitudeValue'];
+    String longitude = info['longitudeValue'];
     String main = info['mainValue'];
 
     //print("Latitude Value $latitude and longitude value $longitude");
@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
                           });
                         },
                         items:
-                        list.map<DropdownMenuItem<String>>((String value) {
+                            list.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -95,12 +95,10 @@ class _HomeState extends State<Home> {
                           Navigator.pushReplacementNamed(context, '/loading',
                               arguments: {"searchText": dropdownValue});
                         },
-
                         style: ElevatedButton.styleFrom(
                             primary: Colors.black,
                             textStyle: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold)),
+                                fontSize: 16, fontWeight: FontWeight.bold)),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: const [
@@ -108,8 +106,9 @@ class _HomeState extends State<Home> {
                             SizedBox(
                               width: 5,
                             ),
-                            Icon( // <-- Icon
-                              Icons.ads_click ,
+                            Icon(
+                              // <-- Icon
+                              Icons.ads_click,
                               size: 24.0,
                             ),
                           ],
@@ -117,8 +116,84 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                ),
+                ), //Search Container
+
                 Container(
+                  //Latitude and longitude
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+                  margin: EdgeInsets.symmetric(horizontal: 30),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        // Latitude
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            child: const Text(
+                              'Latitude',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                height: 1,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              '$latitude',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                height: 1,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ],
+                      ), // Latitude Row
+
+                      Spacer(),
+                      Row(
+                        // Longitude
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            child: const Text(
+                              'Longitude',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                height: 1,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              '$longitude',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                height: 1,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ],
+                      ), //Longitude
+                    ],
+                  ),
+                ), //Latitude Longitude
+
+                Container(
+                  // View Weather Button
                   margin: EdgeInsets.symmetric(horizontal: 25),
                   padding: EdgeInsets.all(10),
                   child: SizedBox(
@@ -126,9 +201,9 @@ class _HomeState extends State<Home> {
                     child: TextButton(
                       style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
+                              MaterialStateProperty.all<Color>(Colors.white),
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.black54)),
+                              MaterialStateProperty.all(Colors.black54)),
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, '/loading',
                             arguments: {"searchText": dropdownValue});
@@ -136,8 +211,9 @@ class _HomeState extends State<Home> {
                       child: const Text('View Weather'),
                     ),
                   ),
-                ),
+                ), // View Weather Button
                 Row(
+                  // Description Widget
                   children: [
                     Expanded(
                       child: Container(
@@ -187,7 +263,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ],
-                ),
+                ), //Description Widget
                 Row(
                   children: [
                     Expanded(
@@ -197,7 +273,7 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(14),
                             color: Colors.white.withOpacity(0.5)),
                         margin:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                         padding: EdgeInsets.all(26),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

@@ -16,8 +16,8 @@ class _LoadingState extends State<Loading> {
   late String airSpeed;
   late String description;
   late String main;
-  //late String latitude;
-  //late String longitude;
+  late String latitude;
+  late String longitude;
   late String icon;
 
   void startApp(String city) async
@@ -28,6 +28,8 @@ class _LoadingState extends State<Loading> {
     humidity = instance.humidity;
     airSpeed = instance.airSpeed;
     description = instance.description;
+    latitude = instance.latitude;
+    longitude = instance.longitude;
     main = instance.main;
     icon = instance.icon;
     Future.delayed(Duration(seconds: 2), (){
@@ -37,8 +39,8 @@ class _LoadingState extends State<Loading> {
         "humidityValue" : humidity,
         "airSpeedValue" : airSpeed,
         "descriptionValue" : description,
-        //"latitudeValue" : latitude,
-        //"longitudeValue" : longitude,
+        "latitudeValue" : latitude,
+        "longitudeValue" : longitude,
         "mainValue" : main,
         "iconValue" : icon,
         "cityValue" : city
