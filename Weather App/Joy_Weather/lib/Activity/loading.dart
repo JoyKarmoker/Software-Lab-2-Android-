@@ -12,6 +12,7 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   String city = "Rajshahi";
   late String temperature;
+  late String temperatureF;
   late String humidity;
   late String airSpeed;
   late String description;
@@ -25,6 +26,7 @@ class _LoadingState extends State<Loading> {
     worker instance =  worker(location: city);
     await instance.getData();
     temperature = instance.temperature;
+    temperatureF =instance.temperatureF;
     humidity = instance.humidity;
     airSpeed = instance.airSpeed;
     description = instance.description;
@@ -36,6 +38,7 @@ class _LoadingState extends State<Loading> {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/home', arguments: {
         "temperatureValue" : temperature,
+        "temperatureFValue" : temperatureF,
         "humidityValue" : humidity,
         "airSpeedValue" : airSpeed,
         "descriptionValue" : description,

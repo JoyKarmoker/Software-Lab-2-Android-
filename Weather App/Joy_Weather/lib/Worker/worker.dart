@@ -11,6 +11,8 @@ class worker{
   }
 
   late String temperature;
+  late String dateTime;
+  late String temperatureF;
   late String humidity;
   late String airSpeed;
   late String description;
@@ -29,6 +31,8 @@ class worker{
       Map mainData = data['main'];
       double getTemperature = mainData['temp']-273.15;//Kelvin to degree
       // celsius
+      double getTemperatureF = (mainData['temp'] - 273.15) * 9/5 + 32;
+      //Kelvin To Farhenhit
       int getHumidity = mainData['humidity'];
 
       //Getting Air Speed
@@ -50,6 +54,7 @@ class worker{
 
       //Assigning Values
       temperature = getTemperature.toStringAsFixed(1);
+      temperatureF = getTemperatureF.toStringAsFixed(2);
       humidity = getHumidity.toString();
       airSpeed = getAirSpeed.toStringAsFixed(1);
       description = getDescription;
@@ -64,6 +69,7 @@ class worker{
       description = "Can not Find Data";
       latitude = "NA";
       longitude = "NA";
+      temperatureF = "NA";
       main = "NA";
       icon = "09d";
     }
